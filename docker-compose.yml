@@ -1,19 +1,24 @@
 ark:
   container_name: ark
   image: turzam/ark
+  tty: true
+  stdin_open: true
+  restart: always
   environment:
     - SESSIONNAME=Ark Docker
     - SERVERMAP=TheIsland
-    - SERVERPASSWORD="" 
-    - ADMINPASSWORD=adminpassword
+    - SERVERPASSWORD="ark" 
+    - ADMINPASSWORD="i9I6IKzc"
     - BACKUPONSTART=1
     - UPDATEONSTART=1
-    - TZ=Europe/Paris
+    - TZ=asia/tokyo
     - GID=1000
     - UID=1000
   volumes:
-    - /my/path/to/ark:/ark
+    - ./ark:/ark
   ports:
+   - 7777:7777/udp
+   - 7777:7777
    - 7778:7778/udp
    - 7778:7778
    - 27015:27015/udp
