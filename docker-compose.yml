@@ -1,6 +1,6 @@
 ark:
   container_name: ark
-  image: turzam/ark
+  build: ./
   tty: true
   stdin_open: true
   restart: always
@@ -16,6 +16,7 @@ ark:
     - UID=1000
   volumes:
     - ./ark:/ark
+    - ./:/ark-config
   ports:
    - 7777:7777/udp
    - 7777:7777
@@ -23,4 +24,6 @@ ark:
    - 7778:7778
    - 27015:27015/udp
    - 27015:27015
+   - 27016:27016/udp
+   - 27016:27016
    - 32330:32330

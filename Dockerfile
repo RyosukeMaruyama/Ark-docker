@@ -1,7 +1,5 @@
 FROM ubuntu
 
-MAINTAINER TuRzAm
-
 # Var for first config
 # Server Name
 ENV SESSIONNAME "Ark Docker"
@@ -10,15 +8,14 @@ ENV SERVERMAP "TheIsland"
 # Server password
 ENV SERVERPASSWORD ""
 # Admin password
-ENV ADMINPASSWORD "adminpassword"
+ENV ADMINPASSWORD "adminadmin"
 # Nb Players
 ENV NBPLAYERS 70
 # If the server is updating when start with docker start
 ENV UPDATEONSTART 1
 # if the server is backup when start with docker start
 ENV BACKUPONSTART 1
-#  Tag on github for ark server tools
-ENV GIT_TAG v1.5
+
 # Server PORT (you can't remap with docker, it doesn't work)
 ENV SERVERPORT 27015
 # Steam port (you can't remap with docker, it doesn't work)
@@ -34,7 +31,7 @@ ENV GID 1000
 
 # Install dependencies 
 RUN apt-get update &&\ 
-    apt-get install -y curl lib32gcc1 lsof git
+    apt-get install -y curl lib32gcc1 lsof git sudo
 
 # Enable passwordless sudo for users under the "sudo" group
 RUN sed -i.bkp -e \
@@ -63,9 +60,9 @@ RUN mkdir  /ark
 
 
 # We use the git method, because api github has a limit ;)
-RUN  git clone https://github.com/FezVrasta/ark-server-tools.git /home/steam/ark-server-tools
+RUN  git clone https://github.com/arkmanager/ark-server-tools.git /home/steam/ark-server-tools
 WORKDIR /home/steam/ark-server-tools/
-RUN  git checkout $GIT_TAG 
+
 # Install 
 WORKDIR /home/steam/ark-server-tools/tools
 RUN chmod +x install.sh 
@@ -102,6 +99,8 @@ VOLUME  /ark
 
 # Change the working directory to /arkd
 WORKDIR /ark
+
+RUN chmod -R 777 /etc/arkmanager
 
 # Update game launch the game.
 ENTRYPOINT ["/home/steam/user.sh"]

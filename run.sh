@@ -13,7 +13,7 @@ function stop {
 		echo "[Backup on stop]"
 		arkmanager backup
 	fi
-	if [ ${WARNONSTOP} -eq 1 ];then 
+	if [ ${WARNONSTOP} -eq 1 ]; then 
 	    arkmanager stop --warn
 	else
 	    arkmanager stop
@@ -52,7 +52,7 @@ if [ ! -d /ark/server  ] || [ ! -f /ark/server/arkversion ];then
 	# Create mod dir
 else
 
-	if [ ${BACKUPONSTART} -eq 1 ] && [ "$(ls -A server/ShooterGame/Saved/SavedArks/)" ]; then 
+	if [ ${BACKUPONSTART} = 1 ] && [ "$(ls -A server/ShooterGame/Saved/SavedArks/)" ]; then 
 		echo "[Backup]"
 		arkmanager backup
 	fi
@@ -72,7 +72,7 @@ else
 fi
 
 # Launching ark server
-if [ $UPDATEONSTART -eq 0 ]; then
+if [ $UPDATEONSTART = 0 ]; then
 	arkmanager start -noautoupdate
 else
 	arkmanager start
