@@ -1,4 +1,5 @@
-FROM ubuntu
+# FROM ubuntu
+FROM steamcmd/steamcmd:latest
 
 # Var for first config
 # Server Name
@@ -30,8 +31,11 @@ ENV UID 1000
 ENV GID 1000
 
 # Install dependencies 
-RUN apt-get update &&\ 
-    apt-get install -y curl lib32gcc1 lsof git sudo
+RUN apt-get update
+# RUN apt-get install -y software-properties-common 
+RUN apt-get install -y curl lib32gcc1 lsof git sudo
+
+RUN umask 0000
 
 # Enable passwordless sudo for users under the "sudo" group
 RUN sed -i.bkp -e \
@@ -86,6 +90,13 @@ RUN mkdir /home/steam/steamcmd &&\
 	cd /home/steam/steamcmd &&\ 
 	curl http://media.steampowered.com/installer/steamcmd_linux.tar.gz | tar -vxz 
 
+# RUN add-apt-repository multiverse &&\ 
+# 	dpkg --add-architecture i386 &&\ 
+# 	apt update &&\ 
+# 	apt install -y lib32gcc1
+# RUN echo steam steam/question select "I AGREE" | debconf-set-selections && \
+#     echo steam steam/license note '' | debconf-set-selections && \
+# 		apt install -y steamcmd
 
 # First run is on anonymous to download the app
 # We can't download from docker hub anymore -_-
@@ -95,12 +106,14 @@ EXPOSE ${STEAMPORT} 32330 ${SERVERPORT}
 # Add UDP
 EXPOSE ${STEAMPORT}/udp ${SERVERPORT}/udp
 
-VOLUME  /ark 
+VOLUME /ark 
 
 # Change the working directory to /arkd
 WORKDIR /ark
 
-RUN chmod -R 777 /etc/arkmanager
+RUN chmod -R 777 /etc/arkmanager && \
+	chmod -R 777 /home/steam && \
+	chmod -R 777 /var
 
 # Update game launch the game.
 ENTRYPOINT ["/home/steam/user.sh"]

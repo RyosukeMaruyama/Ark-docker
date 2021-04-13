@@ -7,8 +7,6 @@ ark:
   environment:
     - SESSIONNAME=Ark Docker
     - SERVERMAP=TheIsland
-    - SERVERPASSWORD="ark" 
-    - ADMINPASSWORD="i9I6IKzc"
     - BACKUPONSTART=1
     - UPDATEONSTART=1
     - TZ=asia/tokyo
@@ -16,7 +14,9 @@ ark:
     - UID=1000
   volumes:
     - ./ark:/ark
-    - ./:/ark-config
+    - ./Game.ini:/etc/arkmanager/instances/main.Game.ini
+    - ./GameUserSettings.ini:/etc/arkmanager/instances/main.GameUserSettings.ini
+    - ./arkmanager.cfg:/etc/arkmanager/arkmanager.cfg
   ports:
    - 7777:7777/udp
    - 7777:7777
@@ -27,3 +27,4 @@ ark:
    - 27016:27016/udp
    - 27016:27016
    - 32330:32330
+  command: arkmanager start
